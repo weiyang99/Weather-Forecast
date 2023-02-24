@@ -1,6 +1,5 @@
 import axios from "axios";
-
-var REACT_APP_RAPID_API_KEY = config.REACT_APP_RAPID_API_KEY;
+import { REACT_APP_RAPID_API_KEY } from './config'
 
 const BASE_URL = 'https://open-weather13.p.rapidapi.com/city'
 
