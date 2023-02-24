@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
 import './App.css';
 import axios from 'axios';
+// import { fetchFromAPI } from './fetchFromAPI';
 
 function App() {
   const [data, setData] = useState({})
   const [location, setLocation] = useState('')
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q={${location}}&appid={${process.env.API_KEY}}`
+  // const handleSearch = (e) => {
+  //   if (e.key === 'Enter') {
+  //     e.preventDefault()
+  //     fetchFromAPI(location).then((data) => {
+  //       setData(data)
+  //       console.log(data)
+  //     })
+  //     setLocation('')
+  //   }
+  // }
 
-  const search = (e) => {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=b23038ec723c7c4dd24b08fa5e9cd6c9`
+
+  const handleSearch = (e) => {
     if (e.key === 'Enter') {
+      e.preventDefault()
       axios.get(url).then((response) => {
         setData(response.data)
+        console.log(response.data)
       })
       setLocation('')
     }
@@ -19,14 +33,17 @@ function App() {
 
   return (
     <div className="App">
+
       <div className='search'>
         <input
-          value={location}
           type='text'
-          onChange={(e) => setLocation(e.target.value)}
-          onKeyPress={search}
-          placeholder='Enter Location' />
+          value={location}
+          onChange={(e) => { setLocation(e.target.value) }}
+          onKeyDown={handleSearch}
+          placeholder='Enter Location'
+        />
       </div>
+
       <div className="container">
         <div className="top">
           <div className="location">
@@ -36,7 +53,7 @@ function App() {
             {data.main ? <h1>{data.main.temp.toFixed()}°F</h1> : null}
           </div>
           <div className="description">
-            {data.weather ? <p>{data.weather[0].main}</p> : null}
+            {data.weather ? <p>{data.weather[0].description}</p> : null}
           </div>
         </div>
 
@@ -56,6 +73,7 @@ function App() {
             </div>
           </div>
         }
+
       </div>
     </div>
   );
